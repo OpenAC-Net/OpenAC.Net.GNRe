@@ -73,6 +73,22 @@ namespace OpenAC.Net.GNRe
         }
 
         /// <summary>
+        /// Envia um lote de guias para processamento
+        /// </summary>
+        /// <returns></returns>
+        public RecepcaoLoteResposta RecepcaoLote()
+        {
+            var request = new LoteGnreRequest
+            {
+                Versao = Config.Geral.VersaoDFe,
+                Guias = Guias
+            };
+
+            using (var service = new ServicoRecepcaoLote(Config))
+                return service.Processar(request);
+        }
+
+        /// <summary>
         /// Consulta o resultado do processamento do lote de guias.
         /// </summary>
         /// <param name="numeroRecibo"></param>
@@ -80,8 +96,6 @@ namespace OpenAC.Net.GNRe
         /// <returns></returns>
         public Task<ConsultarLoteResposta> ConsultaLoteAsync(string numeroRecibo, bool incluirPdf)
         {
-            Guard.Against<ArgumentException>(!Guias.Any(), "Nenhuma Guia adicionada para envio.");
-
             return Task.Run(() =>
             {
                 var request = new ConsultaLoteRequest
@@ -97,6 +111,25 @@ namespace OpenAC.Net.GNRe
         }
 
         /// <summary>
+        /// Consulta o resultado do processamento do lote de guias.
+        /// </summary>
+        /// <param name="numeroRecibo"></param>
+        /// <param name="incluirPdf"></param>
+        /// <returns></returns>
+        public ConsultarLoteResposta ConsultaLote(string numeroRecibo, bool incluirPdf)
+        {
+            var request = new ConsultaLoteRequest
+            {
+                Ambiente = Config.WebServices.Ambiente,
+                NumeroRecibo = numeroRecibo,
+                IncluirPdfsGuias = incluirPdf
+            };
+
+            using (var service = new ServicoResultadoLote(Config))
+                return service.Processar(request);
+        }
+
+        /// <summary>
         /// Consultas as configurações da UF.
         /// </summary>
         /// <param name="uf"></param>
@@ -105,15 +138,13 @@ namespace OpenAC.Net.GNRe
         /// <returns></returns>
         public Task<ConsultaConfigUFResposta> ConsultaConfigUFAsync(string uf, string receita = null, bool? courier = null)
         {
-            Guard.Against<ArgumentException>(!Guias.Any(), "Nenhuma Guia adicionada para envio.");
-
             return Task.Run(() =>
             {
                 var request = new ConsultaConfigUFRequest()
                 {
                     Ambiente = Config.WebServices.Ambiente,
                     Uf = uf,
-                    Receita =
+                    Receita = new ReceitaValue()
                     {
                         Value = receita,
                         Courier = courier
@@ -123,6 +154,30 @@ namespace OpenAC.Net.GNRe
                 using (var service = new ServicoConfigUF(Config))
                     return service.Processar(request);
             });
+        }
+
+        /// <summary>
+        /// Consultas as configurações da UF.
+        /// </summary>
+        /// <param name="uf"></param>
+        /// <param name="receita"></param>
+        /// <param name="courier"></param>
+        /// <returns></returns>
+        public ConsultaConfigUFResposta ConsultaConfigUF(string uf, string receita = null, bool? courier = null)
+        {
+            var request = new ConsultaConfigUFRequest()
+            {
+                Ambiente = Config.WebServices.Ambiente,
+                Uf = uf,
+                Receita = new ReceitaValue()
+                {
+                    Value = receita,
+                    Courier = courier
+                }
+            };
+
+            using (var service = new ServicoConfigUF(Config))
+                return service.Processar(request);
         }
 
         #region Overrides

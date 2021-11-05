@@ -15,6 +15,8 @@ namespace OpenAC.Net.GNRe.Demo
             InitializeComponent();
         }
 
+        private OpenGNRe _OpenGNRe;
+
         private void FrmDemo_Load(object sender, EventArgs e)
         {
             TextCertificadoSerial.Text = "05d75a9b9829a807";
@@ -27,25 +29,31 @@ namespace OpenAC.Net.GNRe.Demo
 
             TextDiretorioSchemas.Text = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Schemas");
             TextDiretorioXmls.Text = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Gnre");
+
+            _OpenGNRe = new OpenGNRe();
         }
 
-        private string InputBox(string mensagem, string texto = null)
+        private void Configurar()
         {
-            using var form = new FormInputBox();
-            form.Text = mensagem;
-            form.TextBox1.Text = texto ?? string.Empty;
-            form.ShowDialog();
+            _OpenGNRe.Config.Arquivos.PathSchemas = TextDiretorioSchemas.Text;
+            _OpenGNRe.Config.Arquivos.PathSalvar = TextDiretorioXmls.Text;
+            _OpenGNRe.Config.Arquivos.Salvar = true;
 
-            return form.Tag.ToString()?.Trim() ?? string.Empty;
+            _OpenGNRe.Config.WebServices.Ambiente = (DFeTipoAmbiente)ComboAmbiente.SelectedItem;
+            _OpenGNRe.Config.WebServices.Salvar = true;
+
+            _OpenGNRe.Config.Geral.RetirarAcentos = true;
+            _OpenGNRe.Config.Geral.VersaoDFe = VersaoGNre.v200;
+
+            _OpenGNRe.Config.Certificados.Certificado = TextCertificadoSerial.Text.IsNull() ? TextCertificadoCaminho.Text : TextCertificadoSerial.Text;
+            _OpenGNRe.Config.Certificados.Senha = TextCertificadoCaminho.Text;
         }
 
         private void BtnRecepcaoLote_Click(object sender, EventArgs e)
         {
-            var request = new LoteGnreRequest
-            {
-                Versao = VersaoGNre.v200,
-                Guias = new List<GuiaGNRe>()
-            };
+            Configurar();
+
+            _OpenGNRe.Guias.Clear();
 
             //Substitua os dados para realizar o teste
             var dados = new GuiaGNRe
@@ -121,13 +129,13 @@ namespace OpenAC.Net.GNRe.Demo
                 DataPagamento = DateTime.Today
             };
 
-            request.Guias.Add(dados);
+            _OpenGNRe.Guias.Add(dados);
 
-            var client = GetClient();
+            RecepcaoLoteResposta resposta = null;
 
             try
             {
-                client.RecepcaoLote(request);
+                resposta = _OpenGNRe.RecepcaoLote();
             }
             catch (Exception ex)
             {
@@ -135,26 +143,27 @@ namespace OpenAC.Net.GNRe.Demo
             }
             finally
             {
-                TextXmlEnvio.Text = client.XmlEnvio;
-                TextXmlResposta.Text = client.XmlResposta;
+                TextXmlEnvio.Text = resposta.XmlEnvio;
+                TextXmlResposta.Text = resposta.XmlRetorno;
             }
         }
 
         private void BtnResultadoLote_Click(object sender, EventArgs e)
         {
             var recibo = string.Empty;
-            recibo = InputBox("Informe o num. do recibo", recibo);
+            if (InputBox.Show("Envio", "Informe o num. do recibo", ref recibo) != DialogResult.OK) return;
             if (recibo.IsNull())
                 return;
 
-            var incluirPdf = "sim";
-            incluirPdf = InputBox("Incluir Pdf?", incluirPdf);
+            var incluirPdf = true;
+            if (InputBox.Show("Envio", "Incluir PDF ?", ref recibo) != DialogResult.OK) return;
 
-            var client = GetClient();
+            Configurar();
 
+            ConsultarLoteResposta resposta = null;
             try
             {
-                client.ResultadoLote(recibo, incluirPdf.ToLower() == "sim");
+                resposta = _OpenGNRe.ConsultaLote(recibo, incluirPdf);
             }
             catch (Exception ex)
             {
@@ -162,30 +171,31 @@ namespace OpenAC.Net.GNRe.Demo
             }
             finally
             {
-                TextXmlEnvio.Text = client.XmlEnvio;
-                TextXmlResposta.Text = client.XmlResposta;
+                TextXmlEnvio.Text = resposta.XmlEnvio;
+                TextXmlResposta.Text = resposta.XmlRetorno;
             }
         }
 
         private void BtnConfiguracaoUf_Click(object sender, EventArgs e)
         {
             var uf = "PR";
-            uf = InputBox("Informe a UF", uf);
+            if (InputBox.Show("Configuração", "Informe a UF", ref uf) != DialogResult.OK) return;
 
             if (uf.Length != 2)
                 return;
 
             var receita = "100102";
-            receita = InputBox("Informe a receita", receita);
+            if (InputBox.Show("Configuração", "Informe a receita", ref receita) != DialogResult.OK) return;
 
-            var courier = "N";
-            courier = InputBox("Courier", courier);
+            var courier = true;
+            if (InputBox.Show("Configuração", "Courier?", ref courier) != DialogResult.OK) return;
 
-            var client = GetClient();
+            Configurar();
 
+            ConsultaConfigUFResposta resposta = null;
             try
             {
-                client.ConfigUf(uf, receita, courier == "S" ? (SimNao?)SimNao.S : null);
+                resposta = _OpenGNRe.ConsultaConfigUF(uf, receita, courier);
             }
             catch (Exception ex)
             {
@@ -193,8 +203,8 @@ namespace OpenAC.Net.GNRe.Demo
             }
             finally
             {
-                TextXmlEnvio.Text = client.XmlEnvio;
-                TextXmlResposta.Text = client.XmlResposta;
+                TextXmlEnvio.Text = resposta.XmlEnvio;
+                TextXmlResposta.Text = resposta.XmlRetorno;
             }
         }
     }
