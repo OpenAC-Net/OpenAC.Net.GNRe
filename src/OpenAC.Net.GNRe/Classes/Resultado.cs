@@ -29,9 +29,8 @@
 // <summary></summary>
 // ***********************************************************************
 
-using System;
 using System.Collections.Generic;
-using OpenAC.Net.Core.Extensions;
+using System.IO;
 using OpenAC.Net.DFe.Core.Attributes;
 
 namespace OpenAC.Net.GNRe.Classes
@@ -53,16 +52,8 @@ namespace OpenAC.Net.GNRe.Classes
         public List<GuiaResult> Guia { get; set; }
 
         [DFeElement("pdfGuias")]
-        public byte[] PdfGuias { get; set; }
+        public Stream PdfGuias { get; set; }
 
         #endregion Properties
-
-        #region Methods
-
-        private string SerializePdfGuias() => PdfGuias.IsNullOrEmpty() ? "" : Convert.ToBase64String(PdfGuias);
-
-        private object DeserializePdfGuias(string value) => value.IsEmpty() ? null : Convert.FromBase64String(value);
-
-        #endregion Methods
     }
 }
