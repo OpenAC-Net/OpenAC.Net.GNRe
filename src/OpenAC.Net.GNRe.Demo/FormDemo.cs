@@ -143,8 +143,8 @@ namespace OpenAC.Net.GNRe.Demo
             }
             finally
             {
-                TextXmlEnvio.Text = resposta.XmlEnvio;
-                TextXmlResposta.Text = resposta.XmlRetorno;
+                TextXmlEnvio.Text = resposta?.XmlEnvio;
+                TextXmlResposta.Text = resposta?.XmlRetorno;
             }
         }
 
@@ -171,8 +171,8 @@ namespace OpenAC.Net.GNRe.Demo
             }
             finally
             {
-                TextXmlEnvio.Text = resposta.XmlEnvio;
-                TextXmlResposta.Text = resposta.XmlRetorno;
+                TextXmlEnvio.Text = resposta?.XmlEnvio;
+                TextXmlResposta.Text = resposta?.XmlRetorno;
             }
         }
 
@@ -203,8 +203,8 @@ namespace OpenAC.Net.GNRe.Demo
             }
             finally
             {
-                TextXmlEnvio.Text = resposta.XmlEnvio;
-                TextXmlResposta.Text = resposta.XmlRetorno;
+                TextXmlEnvio.Text = resposta?.XmlEnvio;
+                TextXmlResposta.Text = resposta?.XmlRetorno;
             }
         }
     }
