@@ -30,6 +30,7 @@
 // ***********************************************************************
 
 using System;
+using System.ServiceModel.Channels;
 using OpenAC.Net.DFe.Core.Common;
 using OpenAC.Net.GNRe.Classes;
 
@@ -49,6 +50,8 @@ namespace OpenAC.Net.GNRe.WebService
         public ServicoRecepcaoLote(GNReConfig config) : base(config, Url(config.WebServices))
         {
             NomeArquivo = "recepcao-lot-soap";
+            var http = ((CustomBinding)Endpoint.Binding).Elements.Find<HttpTransportBindingElement>();
+            http.MaxBufferSize = int.MaxValue;
         }
 
         #endregion Constructors
@@ -67,7 +70,7 @@ namespace OpenAC.Net.GNRe.WebService
 
             ValidateMessage(message, SchemaGNRe.Recepcao);
 
-            var resposta = Execute("processar", message, SoapHeader(Configuracoes.Geral), "xmlns:gnr=\"http://www.gnre.pe.gov.br/webservice/GnreLoteRecepcao\"");
+            var resposta = Execute("processar", $@"<gnr:gnreDadosMsg>{message}</gnr:gnreDadosMsg>", SoapHeader(Configuracoes.Geral.VersaoDFe), "xmlns:gnr=\"http://www.gnre.pe.gov.br/webservice/GnreLoteRecepcao\"");
 
             GravarXml(resposta, $"{DateTime.Now:yyyyMMddssfff}-recepcao-lot-resp.xml");
             return new RecepcaoLoteResposta(message, resposta, EnvelopeEnvio, EnvelopeRetorno);

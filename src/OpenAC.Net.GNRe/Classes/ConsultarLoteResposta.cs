@@ -33,7 +33,7 @@ using OpenAC.Net.DFe.Core.Service;
 
 namespace OpenAC.Net.GNRe.Classes
 {
-    public sealed class ConsultarLoteResposta : DFeResposta<RecepcaoLoteResult>
+    public sealed class ConsultarLoteResposta : DFeResposta<ConsultarLoteResult>
     {
         #region Constructors
 

@@ -52,7 +52,7 @@ namespace OpenAC.Net.GNRe.WebService
 
         #region Methods
 
-        protected static string SoapHeader(GNReGeralConfig configuracao) => $"<gnr:gnreCabecMsg><gnr:versaoDados>{configuracao.VersaoDFe.GetDFeValue()}</gnr:versaoDados></gnr:gnreCabecMsg>";
+        protected static string SoapHeader(VersaoGNre versao) => $"<gnr:gnreCabecMsg><gnr:versaoDados>{versao.GetDFeValue()}</gnr:versaoDados></gnr:gnreCabecMsg>";
 
         protected override string TratarRetorno(XDocument xmlDocument)
         {

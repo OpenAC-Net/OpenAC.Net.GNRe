@@ -30,7 +30,6 @@
 // ***********************************************************************
 
 using OpenAC.Net.DFe.Core.Attributes;
-using OpenAC.Net.DFe.Core.Document;
 using OpenAC.Net.DFe.Core.Serializer;
 
 namespace OpenAC.Net.GNRe.Classes
@@ -42,15 +41,27 @@ namespace OpenAC.Net.GNRe.Classes
         [DFeElement(TipoCampo.Str, "periodo", Ocorrencia = Ocorrencia.NaoObrigatoria, Ordem = 1)]
         public string Periodo { get; set; }
 
-        [DFeElement(TipoCampo.StrNumberFill, "mes", Min = 2, Ocorrencia = Ocorrencia.NaoObrigatoria, Ordem = 2)]
+        [DFeElement(TipoCampo.Custom, "mes", Min = 2, Ocorrencia = Ocorrencia.NaoObrigatoria, Ordem = 2)]
         public int Mes { get; set; }
 
-        [DFeElement(TipoCampo.StrNumberFill, "ano", Min = 4, Ocorrencia = Ocorrencia.NaoObrigatoria, Ordem = 3)]
+        [DFeElement(TipoCampo.Custom, "ano", Min = 4, Ocorrencia = Ocorrencia.NaoObrigatoria, Ordem = 3)]
         public int Ano { get; set; }
 
         [DFeElement(TipoCampo.Str, "parcela", Ocorrencia = Ocorrencia.NaoObrigatoria, Ordem = 4)]
         public string Parcela { get; set; }
 
         #endregion Properties
+
+        #region Methods
+
+        private string SerializeMes() => Mes.ToString("00");
+
+        private object DeserializeMes(string value) => int.Parse(value);
+
+        private string SerializeAno() => Ano.ToString("0000");
+
+        private object DeserializeAno(string value) => int.Parse(value);
+
+        #endregion Methods
     }
 }

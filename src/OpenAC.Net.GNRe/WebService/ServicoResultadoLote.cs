@@ -67,7 +67,7 @@ namespace OpenAC.Net.GNRe.WebService
 
             ValidateMessage(message, SchemaGNRe.RetRecepcao);
 
-            var resposta = Execute("consultar", message, SoapHeader(Configuracoes.Geral), "xmlns:gnr=\"http://www.gnre.pe.gov.br/webservice/GnreResultadoLote\"");
+            var resposta = Execute("consultar", $@"<gnr:gnreDadosMsg>{message}</gnr:gnreDadosMsg>", SoapHeader(Configuracoes.Geral.VersaoDFe), "xmlns:gnr=\"http://www.gnre.pe.gov.br/webservice/GnreResultadoLote\"");
 
             GravarXml(resposta, $"{DateTime.Now:yyyyMMddssfff}-resultado-lot-resp.xml");
             return new ConsultarLoteResposta(message, resposta, EnvelopeEnvio, EnvelopeRetorno);

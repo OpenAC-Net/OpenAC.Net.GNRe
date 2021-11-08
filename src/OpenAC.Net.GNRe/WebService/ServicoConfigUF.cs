@@ -67,7 +67,7 @@ namespace OpenAC.Net.GNRe.WebService
 
             ValidateMessage(message, SchemaGNRe.ConsultaConfigUF);
 
-            var resposta = Execute("consultar", message, SoapHeader(Configuracoes.Geral), "xmlns:gnr=\"http://www.gnre.pe.gov.br/webservice/GnreConfigUF\"");
+            var resposta = Execute("consultar", $@"<gnr:gnreDadosMsg>{message}</gnr:gnreDadosMsg>", SoapHeader(Configuracoes.Geral.VersaoDFe), "xmlns:gnr=\"http://www.gnre.pe.gov.br/webservice/GnreConfigUF\"");
 
             GravarXml(resposta, $"{DateTime.Now:yyyyMMddssfff}-config-uf-resp.xml");
             return new ConsultaConfigUFResposta(message, resposta, EnvelopeEnvio, EnvelopeRetorno);
