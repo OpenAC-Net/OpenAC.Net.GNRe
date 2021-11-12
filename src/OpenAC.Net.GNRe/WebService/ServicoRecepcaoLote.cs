@@ -52,6 +52,7 @@ namespace OpenAC.Net.GNRe.WebService
             NomeArquivo = "recepcao-lot-soap";
             var http = ((CustomBinding)Endpoint.Binding).Elements.Find<HttpTransportBindingElement>();
             http.MaxBufferSize = int.MaxValue;
+            http.MaxReceivedMessageSize = int.MaxValue;
         }
 
         #endregion Constructors
