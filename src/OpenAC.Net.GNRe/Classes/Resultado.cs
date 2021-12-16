@@ -31,6 +31,7 @@
 
 using System.Collections.Generic;
 using System.IO;
+using OpenAC.Net.Core;
 using OpenAC.Net.DFe.Core.Attributes;
 
 namespace OpenAC.Net.GNRe.Classes
@@ -55,5 +56,26 @@ namespace OpenAC.Net.GNRe.Classes
         public Stream PdfGuias { get; set; }
 
         #endregion Properties
+
+        #region Methods
+
+        /// <summary>
+        /// Salva o PDF da guia caso a mesma tenha vindo no xml.
+        /// </summary>
+        /// <param name="path">Caminho completo para salvar o pdf das guias.</param>
+        /// <returns></returns>
+        public bool SalvarGuia(string path = "guias.pdf")
+        {
+            if (PdfGuias == null) return false;
+
+            if (File.Exists(path)) File.Delete(path);
+
+            using (var fileStream = new FileStream("guias.pdf", FileMode.Create, FileAccess.Write))
+                PdfGuias.CopyTo(fileStream);
+
+            return true;
+        }
+
+        #endregion Methods
     }
 }
