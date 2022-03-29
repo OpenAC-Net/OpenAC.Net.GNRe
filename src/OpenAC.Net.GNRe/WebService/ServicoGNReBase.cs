@@ -30,6 +30,7 @@
 // ***********************************************************************
 
 using System.IO;
+using System.ServiceModel.Channels;
 using System.Text;
 using System.Xml.Linq;
 using OpenAC.Net.Core.Extensions;
@@ -44,16 +45,37 @@ namespace OpenAC.Net.GNRe.WebService
     {
         #region Constructors
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="url"></param>
         protected ServicoGNReBase(GNReConfig config, string url) : base(config, url, config.Certificados.ObterCertificado())
         {
+            if (Endpoint.Binding is not CustomBinding binding) return;
+
+            var http = binding.Elements.Find<HttpTransportBindingElement>();
+            http.MaxBufferSize = int.MaxValue;
+            http.MaxReceivedMessageSize = int.MaxValue;
         }
 
         #endregion Constructors
 
         #region Methods
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="versao"></param>
+        /// <returns></returns>
         protected static string SoapHeader(VersaoGNre versao) => $"<gnr:gnreCabecMsg><gnr:versaoDados>{versao.GetDFeValue()}</gnr:versaoDados></gnr:gnreCabecMsg>";
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="xmlDocument"></param>
+        /// <returns></returns>
+        /// <exception cref="OpenDFeCommunicationException"></exception>
         protected override string TratarRetorno(XDocument xmlDocument)
         {
             var element = xmlDocument.ElementAnyNs("Fault");
@@ -64,6 +86,11 @@ namespace OpenAC.Net.GNRe.WebService
             throw new OpenDFeCommunicationException(exMessage);
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="conteudoArquivo"></param>
+        /// <param name="nomeArquivo"></param>
         protected void GravarXml(string conteudoArquivo, string nomeArquivo)
         {
             if (Configuracoes.WebServices.Salvar == false) return;

@@ -47,12 +47,13 @@ namespace OpenAC.Net.GNRe.WebService
 
         #region Constructors
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="config"></param>
         public ServicoRecepcaoLote(GNReConfig config) : base(config, Url(config.WebServices))
         {
             NomeArquivo = "recepcao-lot-soap";
-            var http = ((CustomBinding)Endpoint.Binding).Elements.Find<HttpTransportBindingElement>();
-            http.MaxBufferSize = int.MaxValue;
-            http.MaxReceivedMessageSize = int.MaxValue;
         }
 
         #endregion Constructors
@@ -60,10 +61,18 @@ namespace OpenAC.Net.GNRe.WebService
         #region Methods
 
         private static string Url(GNReWebserviceConfig configuracao) =>
-            configuracao.Ambiente == DFeTipoAmbiente.Homologacao ? UrlHomologacao :
-            configuracao.Ambiente == DFeTipoAmbiente.Producao ? UrlProducao :
-            throw new NotImplementedException($"Ambiente \"{configuracao.Ambiente}\" não implementado");
+            configuracao.Ambiente switch
+            {
+                DFeTipoAmbiente.Homologacao => UrlHomologacao,
+                DFeTipoAmbiente.Producao => UrlProducao,
+                _ => throw new NotImplementedException($"Ambiente \"{configuracao.Ambiente}\" não implementado")
+            };
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public RecepcaoLoteResposta Processar(LoteGnreRequest request)
         {
             var message = request.GetXml(DFeSaveOptions.DisableFormatting | DFeSaveOptions.OmitDeclaration | DFeSaveOptions.RemoveSpaces);

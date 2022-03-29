@@ -46,6 +46,10 @@ namespace OpenAC.Net.GNRe.WebService
 
         #region Constructors
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="config"></param>
         public ServicoConfigUF(GNReConfig config) : base(config, Url(config.WebServices))
         {
             NomeArquivo = "config-uf-soap";
@@ -56,10 +60,18 @@ namespace OpenAC.Net.GNRe.WebService
         #region Methods
 
         private static string Url(GNReWebserviceConfig configuracao) =>
-            configuracao.Ambiente == DFeTipoAmbiente.Homologacao ? UrlHomologacao :
-            configuracao.Ambiente == DFeTipoAmbiente.Producao ? UrlProducao :
-            throw new NotImplementedException($"Ambiente \"{configuracao.Ambiente}\" não implementado");
+            configuracao.Ambiente switch
+            {
+                DFeTipoAmbiente.Homologacao => UrlHomologacao,
+                DFeTipoAmbiente.Producao => UrlProducao,
+                _ => throw new NotImplementedException($"Ambiente \"{configuracao.Ambiente}\" não implementado")
+            };
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public ConsultaConfigUFResposta Processar(ConsultaConfigUFRequest request)
         {
             var message = request.GetXml(DFeSaveOptions.DisableFormatting | DFeSaveOptions.OmitDeclaration | DFeSaveOptions.RemoveSpaces);

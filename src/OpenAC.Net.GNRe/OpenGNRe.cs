@@ -39,7 +39,7 @@ using OpenAC.Net.GNRe.WebService;
 
 namespace OpenAC.Net.GNRe
 {
-    public sealed class OpenGNRe : OpenComponent, IOpenLog
+    public sealed class OpenGNRe : IOpenLog
     {
         #region properties
 
@@ -48,6 +48,16 @@ namespace OpenAC.Net.GNRe
         public GuiasCollections Guias { get; private set; }
 
         #endregion properties
+
+        #region Constructors
+
+        public OpenGNRe()
+        {
+            Config = new GNReConfig();
+            Guias = new GuiasCollections();
+        }
+
+        #endregion Constructors
 
         #region Methods
 
@@ -179,20 +189,6 @@ namespace OpenAC.Net.GNRe
             using (var service = new ServicoConfigUF(Config))
                 return service.Processar(request);
         }
-
-        #region Overrides
-
-        protected override void OnInitialize()
-        {
-            Config = new GNReConfig();
-            Guias = new GuiasCollections();
-        }
-
-        protected override void OnDisposing()
-        {
-        }
-
-        #endregion Overrides
 
         #endregion Methods
     }
