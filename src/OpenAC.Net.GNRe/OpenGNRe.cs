@@ -34,7 +34,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using OpenAC.Net.Core;
 using OpenAC.Net.Core.Logging;
-using OpenAC.Net.GNRe.Classes;
+using OpenAC.Net.GNRe.Commom;
 using OpenAC.Net.GNRe.WebService;
 
 namespace OpenAC.Net.GNRe
@@ -77,8 +77,8 @@ namespace OpenAC.Net.GNRe
                     Guias = Guias
                 };
 
-                using (var service = new ServicoRecepcaoLote(Config))
-                    return service.Processar(request);
+                using var service = new ServicoRecepcaoLote(Config);
+                return service.Processar(request);
             });
         }
 
@@ -94,8 +94,8 @@ namespace OpenAC.Net.GNRe
                 Guias = Guias
             };
 
-            using (var service = new ServicoRecepcaoLote(Config))
-                return service.Processar(request);
+            using var service = new ServicoRecepcaoLote(Config);
+            return service.Processar(request);
         }
 
         /// <summary>
@@ -115,8 +115,8 @@ namespace OpenAC.Net.GNRe
                     IncluirPdfsGuias = incluirPdf
                 };
 
-                using (var service = new ServicoResultadoLote(Config))
-                    return service.Processar(request);
+                using var service = new ServicoResultadoLote(Config);
+                return service.Processar(request);
             });
         }
 
@@ -135,8 +135,8 @@ namespace OpenAC.Net.GNRe
                 IncluirPdfsGuias = incluirPdf
             };
 
-            using (var service = new ServicoResultadoLote(Config))
-                return service.Processar(request);
+            using var service = new ServicoResultadoLote(Config);
+            return service.Processar(request);
         }
 
         /// <summary>
@@ -161,8 +161,8 @@ namespace OpenAC.Net.GNRe
                     }
                 };
 
-                using (var service = new ServicoConfigUF(Config))
-                    return service.Processar(request);
+                using var service = new ServicoConfigUF(Config);
+                return service.Processar(request);
             });
         }
 
@@ -186,8 +186,8 @@ namespace OpenAC.Net.GNRe
                 }
             };
 
-            using (var service = new ServicoConfigUF(Config))
-                return service.Processar(request);
+            using var service = new ServicoConfigUF(Config);
+            return service.Processar(request);
         }
 
         #endregion Methods

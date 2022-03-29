@@ -6,7 +6,7 @@
 // Last Modified By : Rafael Dias
 // Last Modified On : 29-10-2021
 // ***********************************************************************
-// <copyright file="GNReGeralConfig.cs" company="OpenAC .Net">
+// <copyright file="ContribuinteEmitente.cs" company="OpenAC .Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2014 - 2021 Projeto OpenAC .Net
 //
@@ -29,19 +29,36 @@
 // <summary></summary>
 // ***********************************************************************
 
-using OpenAC.Net.DFe.Core.Common;
-using OpenAC.Net.GNRe.Commom;
+using OpenAC.Net.DFe.Core.Attributes;
+using OpenAC.Net.DFe.Core.Serializer;
 
-namespace OpenAC.Net.GNRe
+namespace OpenAC.Net.GNRe.Commom
 {
-    public sealed class GNReGeralConfig : DFeGeralConfigBase<VersaoGNre>
+    public sealed class ContribuinteEmitente
     {
-        #region Constructors
+        #region Properties
 
-        internal GNReGeralConfig()
-        {
-        }
+        [DFeElement("identificacao", Ordem = 1)]
+        public IdContribuinte IdContribuinteEmitente { get; set; }
 
-        #endregion Constructors
+        [DFeElement(TipoCampo.Str, "razaoSocial", Ocorrencia = Ocorrencia.NaoObrigatoria, Ordem = 2)]
+        public string RazaoSocial { get; set; }
+
+        [DFeElement(TipoCampo.Str, "endereco", Ocorrencia = Ocorrencia.NaoObrigatoria, Ordem = 3)]
+        public string Endereco { get; set; }
+
+        [DFeElement(TipoCampo.Long, "municipio", Ocorrencia = Ocorrencia.NaoObrigatoria, Ordem = 4, Min = 5, Max = 5)]
+        public long? Municipio { get; set; }
+
+        [DFeElement(TipoCampo.Str, "uf", Ocorrencia = Ocorrencia.NaoObrigatoria, Ordem = 5)]
+        public string Uf { get; set; }
+
+        [DFeElement(TipoCampo.Str, "cep", Ocorrencia = Ocorrencia.NaoObrigatoria, Ordem = 6)]
+        public string Cep { get; set; }
+
+        [DFeElement(TipoCampo.Str, "telefone", Ocorrencia = Ocorrencia.NaoObrigatoria, Ordem = 7)]
+        public string Telefone { get; set; }
+
+        #endregion Properties
     }
 }

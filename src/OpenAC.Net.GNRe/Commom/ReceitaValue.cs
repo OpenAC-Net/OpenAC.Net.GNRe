@@ -6,7 +6,7 @@
 // Last Modified By : Rafael Dias
 // Last Modified On : 29-10-2021
 // ***********************************************************************
-// <copyright file="GNReGeralConfig.cs" company="OpenAC .Net">
+// <copyright file="ReceitaValue.cs" company="OpenAC .Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2014 - 2021 Projeto OpenAC .Net
 //
@@ -29,19 +29,45 @@
 // <summary></summary>
 // ***********************************************************************
 
-using OpenAC.Net.DFe.Core.Common;
-using OpenAC.Net.GNRe.Commom;
+using OpenAC.Net.DFe.Core.Attributes;
+using OpenAC.Net.DFe.Core.Serializer;
 
-namespace OpenAC.Net.GNRe
+namespace OpenAC.Net.GNRe.Commom
 {
-    public sealed class GNReGeralConfig : DFeGeralConfigBase<VersaoGNre>
+    public sealed class ReceitaValue
     {
-        #region Constructors
+        #region Properties
 
-        internal GNReGeralConfig()
+        [DFeItemValue(Tipo = TipoCampo.Str)]
+        public string Value { get; set; }
+
+        [DFeAttribute(TipoCampo.Custom, "courier", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public bool? Courier { get; set; }
+
+        #endregion Properties
+
+        #region Methods
+
+        private string SerializeCourier()
         {
+            switch (Courier)
+            {
+                case true: return "S";
+                case false: return "N";
+                default: return "";
+            }
         }
 
-        #endregion Constructors
+        private object DeserializeCourier(string value)
+        {
+            switch (value)
+            {
+                case "S": return true;
+                case "N": return false;
+                default: return null;
+            }
+        }
+
+        #endregion Methods
     }
 }

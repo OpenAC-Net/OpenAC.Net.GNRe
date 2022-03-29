@@ -33,7 +33,7 @@ using System;
 using System.IO;
 using OpenAC.Net.Core.Extensions;
 using OpenAC.Net.DFe.Core.Common;
-using OpenAC.Net.GNRe.Classes;
+using OpenAC.Net.GNRe.Commom;
 
 namespace OpenAC.Net.GNRe
 {

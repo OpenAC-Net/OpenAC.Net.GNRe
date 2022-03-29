@@ -32,7 +32,7 @@
 using System;
 using System.ServiceModel.Channels;
 using OpenAC.Net.DFe.Core.Common;
-using OpenAC.Net.GNRe.Classes;
+using OpenAC.Net.GNRe.Commom;
 
 namespace OpenAC.Net.GNRe.WebService
 {

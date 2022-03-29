@@ -6,7 +6,7 @@
 // Last Modified By : Rafael Dias
 // Last Modified On : 29-10-2021
 // ***********************************************************************
-// <copyright file="GNReGeralConfig.cs" company="OpenAC .Net">
+// <copyright file="StringCampoBase.cs" company="OpenAC .Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2014 - 2021 Projeto OpenAC .Net
 //
@@ -29,19 +29,21 @@
 // <summary></summary>
 // ***********************************************************************
 
-using OpenAC.Net.DFe.Core.Common;
-using OpenAC.Net.GNRe.Commom;
+using OpenAC.Net.DFe.Core.Attributes;
+using OpenAC.Net.DFe.Core.Serializer;
 
-namespace OpenAC.Net.GNRe
+namespace OpenAC.Net.GNRe.Commom
 {
-    public sealed class GNReGeralConfig : DFeGeralConfigBase<VersaoGNre>
+    public class StringCampoBase
     {
-        #region Constructors
+        #region Properties
 
-        internal GNReGeralConfig()
-        {
-        }
+        [DFeItemValue(Tipo = TipoCampo.Str)]
+        public string Value { get; set; }
 
-        #endregion Constructors
+        [DFeAttribute(TipoCampo.Str, "campo", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public string Campo { get; set; }
+
+        #endregion Properties
     }
 }

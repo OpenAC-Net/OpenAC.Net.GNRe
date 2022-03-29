@@ -6,7 +6,7 @@
 // Last Modified By : Rafael Dias
 // Last Modified On : 29-10-2021
 // ***********************************************************************
-// <copyright file="GNReGeralConfig.cs" company="OpenAC .Net">
+// <copyright file="ConsultaLoteRequest.cs" company="OpenAC .Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2014 - 2021 Projeto OpenAC .Net
 //
@@ -29,19 +29,35 @@
 // <summary></summary>
 // ***********************************************************************
 
+using OpenAC.Net.DFe.Core.Attributes;
 using OpenAC.Net.DFe.Core.Common;
-using OpenAC.Net.GNRe.Commom;
+using OpenAC.Net.DFe.Core.Document;
+using OpenAC.Net.DFe.Core.Serializer;
 
-namespace OpenAC.Net.GNRe
+namespace OpenAC.Net.GNRe.Commom
 {
-    public sealed class GNReGeralConfig : DFeGeralConfigBase<VersaoGNre>
+    [DFeRoot("TConsLote_GNRE", Namespace = "http://www.gnre.pe.gov.br")]
+    public sealed class ConsultaLoteRequest : DFeDocument<ConsultaLoteRequest>
     {
-        #region Constructors
+        #region Properties
 
-        internal GNReGeralConfig()
-        {
-        }
+        [DFeElement(TipoCampo.Enum, "ambiente")]
+        public DFeTipoAmbiente Ambiente { get; set; }
 
-        #endregion Constructors
+        [DFeElement(TipoCampo.Str, "numeroRecibo")]
+        public string NumeroRecibo { get; set; }
+
+        [DFeElement(TipoCampo.Custom, "incluirPDFGuias")]
+        public bool IncluirPdfsGuias { get; set; }
+
+        #endregion Properties
+
+        #region Methods
+
+        private string SerializeIncluirPdfsGuias() => IncluirPdfsGuias ? "S" : "N";
+
+        private object DeserializeIncluirPdfsGuias(string value) => value == "S";
+
+        #endregion Methods
     }
 }

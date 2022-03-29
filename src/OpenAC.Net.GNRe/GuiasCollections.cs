@@ -30,7 +30,7 @@
 // ***********************************************************************
 
 using OpenAC.Net.DFe.Core.Collection;
-using OpenAC.Net.GNRe.Classes;
+using OpenAC.Net.GNRe.Commom;
 
 namespace OpenAC.Net.GNRe
 {

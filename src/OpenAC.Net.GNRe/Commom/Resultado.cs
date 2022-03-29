@@ -6,7 +6,7 @@
 // Last Modified By : Rafael Dias
 // Last Modified On : 29-10-2021
 // ***********************************************************************
-// <copyright file="GNReGeralConfig.cs" company="OpenAC .Net">
+// <copyright file="Resultado.cs" company="OpenAC .Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2014 - 2021 Projeto OpenAC .Net
 //
@@ -29,19 +29,52 @@
 // <summary></summary>
 // ***********************************************************************
 
-using OpenAC.Net.DFe.Core.Common;
-using OpenAC.Net.GNRe.Commom;
+using System.Collections.Generic;
+using System.IO;
+using OpenAC.Net.DFe.Core.Attributes;
 
-namespace OpenAC.Net.GNRe
+namespace OpenAC.Net.GNRe.Commom
 {
-    public sealed class GNReGeralConfig : DFeGeralConfigBase<VersaoGNre>
+    public sealed class Resultado
     {
         #region Constructors
 
-        internal GNReGeralConfig()
+        public Resultado()
         {
+            Guia = new List<GuiaResult>();
         }
 
         #endregion Constructors
+
+        #region Properties
+
+        [DFeCollection("guia")]
+        public List<GuiaResult> Guia { get; set; }
+
+        [DFeElement("pdfGuias")]
+        public Stream PdfGuias { get; set; }
+
+        #endregion Properties
+
+        #region Methods
+
+        /// <summary>
+        /// Salva o PDF da guia caso a mesma tenha vindo no xml.
+        /// </summary>
+        /// <param name="path">Caminho completo para salvar o pdf das guias.</param>
+        /// <returns></returns>
+        public bool SalvarGuia(string path = "guias.pdf")
+        {
+            if (PdfGuias == null) return false;
+
+            if (File.Exists(path)) File.Delete(path);
+
+            using (var fileStream = new FileStream("guias.pdf", FileMode.Create, FileAccess.Write))
+                PdfGuias.CopyTo(fileStream);
+
+            return true;
+        }
+
+        #endregion Methods
     }
 }

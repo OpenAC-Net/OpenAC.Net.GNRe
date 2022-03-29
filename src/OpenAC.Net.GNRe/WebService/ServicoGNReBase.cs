@@ -37,7 +37,7 @@ using OpenAC.Net.Core.Extensions;
 using OpenAC.Net.DFe.Core;
 using OpenAC.Net.DFe.Core.Extensions;
 using OpenAC.Net.DFe.Core.Service;
-using OpenAC.Net.GNRe.Classes;
+using OpenAC.Net.GNRe.Commom;
 
 namespace OpenAC.Net.GNRe.WebService
 {

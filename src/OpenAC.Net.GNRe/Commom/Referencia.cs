@@ -6,7 +6,7 @@
 // Last Modified By : Rafael Dias
 // Last Modified On : 29-10-2021
 // ***********************************************************************
-// <copyright file="GNReGeralConfig.cs" company="OpenAC .Net">
+// <copyright file="Referencia.cs" company="OpenAC .Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2014 - 2021 Projeto OpenAC .Net
 //
@@ -29,19 +29,39 @@
 // <summary></summary>
 // ***********************************************************************
 
-using OpenAC.Net.DFe.Core.Common;
-using OpenAC.Net.GNRe.Commom;
+using OpenAC.Net.DFe.Core.Attributes;
+using OpenAC.Net.DFe.Core.Serializer;
 
-namespace OpenAC.Net.GNRe
+namespace OpenAC.Net.GNRe.Commom
 {
-    public sealed class GNReGeralConfig : DFeGeralConfigBase<VersaoGNre>
+    public sealed class Referencia
     {
-        #region Constructors
+        #region Properties
 
-        internal GNReGeralConfig()
-        {
-        }
+        [DFeElement(TipoCampo.Str, "periodo", Ocorrencia = Ocorrencia.NaoObrigatoria, Ordem = 1)]
+        public string Periodo { get; set; }
 
-        #endregion Constructors
+        [DFeElement(TipoCampo.Custom, "mes", Min = 2, Ocorrencia = Ocorrencia.NaoObrigatoria, Ordem = 2)]
+        public int Mes { get; set; }
+
+        [DFeElement(TipoCampo.Custom, "ano", Min = 4, Ocorrencia = Ocorrencia.NaoObrigatoria, Ordem = 3)]
+        public int Ano { get; set; }
+
+        [DFeElement(TipoCampo.Str, "parcela", Ocorrencia = Ocorrencia.NaoObrigatoria, Ordem = 4)]
+        public string Parcela { get; set; }
+
+        #endregion Properties
+
+        #region Methods
+
+        private string SerializeMes() => Mes.ToString("00");
+
+        private object DeserializeMes(string value) => int.Parse(value);
+
+        private string SerializeAno() => Ano.ToString("0000");
+
+        private object DeserializeAno(string value) => int.Parse(value);
+
+        #endregion Methods
     }
 }

@@ -4,7 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using OpenAC.Net.Core.Extensions;
 using OpenAC.Net.DFe.Core.Common;
-using OpenAC.Net.GNRe.Classes;
+using OpenAC.Net.GNRe.Commom;
 
 namespace OpenAC.Net.GNRe.Demo
 {

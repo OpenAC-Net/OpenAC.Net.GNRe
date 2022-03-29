@@ -6,7 +6,7 @@
 // Last Modified By : Rafael Dias
 // Last Modified On : 29-10-2021
 // ***********************************************************************
-// <copyright file="GNReGeralConfig.cs" company="OpenAC .Net">
+// <copyright file="LoteGnreRequest.cs" company="OpenAC .Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2014 - 2021 Projeto OpenAC .Net
 //
@@ -29,19 +29,35 @@
 // <summary></summary>
 // ***********************************************************************
 
-using OpenAC.Net.DFe.Core.Common;
-using OpenAC.Net.GNRe.Commom;
+using System.Collections.Generic;
+using OpenAC.Net.DFe.Core.Attributes;
+using OpenAC.Net.DFe.Core.Document;
+using OpenAC.Net.DFe.Core.Serializer;
 
-namespace OpenAC.Net.GNRe
+namespace OpenAC.Net.GNRe.Commom
 {
-    public sealed class GNReGeralConfig : DFeGeralConfigBase<VersaoGNre>
+    [DFeRoot("TLote_GNRE", Namespace = "http://www.gnre.pe.gov.br")]
+    public sealed class LoteGnreRequest : DFeDocument<LoteGnreRequest>
     {
         #region Constructors
 
-        internal GNReGeralConfig()
+        public LoteGnreRequest()
         {
+            Versao = VersaoGNre.v200;
+            Guias = new List<GuiaGNRe>();
         }
 
         #endregion Constructors
+
+        #region properties
+
+        [DFeAttribute(TipoCampo.Enum, "versao")]
+        public VersaoGNre Versao { get; set; }
+
+        [DFeCollection("guias")]
+        [DFeItem(typeof(GuiaGNRe), "TDadosGNRE")]
+        public List<GuiaGNRe> Guias { get; set; }
+
+        #endregion properties
     }
 }

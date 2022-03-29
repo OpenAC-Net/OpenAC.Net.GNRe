@@ -6,7 +6,7 @@
 // Last Modified By : Rafael Dias
 // Last Modified On : 29-10-2021
 // ***********************************************************************
-// <copyright file="GNReGeralConfig.cs" company="OpenAC .Net">
+// <copyright file="ExigeCampo.cs" company="OpenAC .Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2014 - 2021 Projeto OpenAC .Net
 //
@@ -29,19 +29,48 @@
 // <summary></summary>
 // ***********************************************************************
 
-using OpenAC.Net.DFe.Core.Common;
-using OpenAC.Net.GNRe.Commom;
+using OpenAC.Net.DFe.Core.Attributes;
+using OpenAC.Net.DFe.Core.Serializer;
 
-namespace OpenAC.Net.GNRe
+namespace OpenAC.Net.GNRe.Commom
 {
-    public sealed class GNReGeralConfig : DFeGeralConfigBase<VersaoGNre>
+    public sealed class ExigeCampo
     {
-        #region Constructors
+        #region Properties
 
-        internal GNReGeralConfig()
+        [DFeItemValue(Tipo = TipoCampo.Custom)]
+        public bool? Value { get; set; }
+
+        [DFeAttribute(TipoCampo.Str, "campo")]
+        public string Campo { get; set; }
+
+        [DFeAttribute(TipoCampo.Str, "campo2_00")]
+        public string Campo200 { get; set; }
+
+        #endregion Properties
+
+        #region Methods
+
+        private string SerializeValue()
         {
+            switch (Value)
+            {
+                case true: return "S";
+                case false: return "N";
+                default: return null;
+            }
         }
 
-        #endregion Constructors
+        private object DeserializeValue(string value)
+        {
+            switch (value)
+            {
+                case "S": return true;
+                case "N": return false;
+                default: return null;
+            }
+        }
+
+        #endregion Methods
     }
 }

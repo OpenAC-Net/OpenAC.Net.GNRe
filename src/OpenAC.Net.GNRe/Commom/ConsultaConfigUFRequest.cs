@@ -6,7 +6,7 @@
 // Last Modified By : Rafael Dias
 // Last Modified On : 29-10-2021
 // ***********************************************************************
-// <copyright file="GNReGeralConfig.cs" company="OpenAC .Net">
+// <copyright file="ConsultaConfigUFRequest.cs" company="OpenAC .Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2014 - 2021 Projeto OpenAC .Net
 //
@@ -29,19 +29,27 @@
 // <summary></summary>
 // ***********************************************************************
 
+using OpenAC.Net.DFe.Core.Attributes;
 using OpenAC.Net.DFe.Core.Common;
-using OpenAC.Net.GNRe.Commom;
+using OpenAC.Net.DFe.Core.Document;
+using OpenAC.Net.DFe.Core.Serializer;
 
-namespace OpenAC.Net.GNRe
+namespace OpenAC.Net.GNRe.Commom
 {
-    public sealed class GNReGeralConfig : DFeGeralConfigBase<VersaoGNre>
+    [DFeRoot("TConsultaConfigUf", Namespace = "http://www.gnre.pe.gov.br")]
+    public sealed class ConsultaConfigUFRequest : DFeDocument<ConsultaConfigUFRequest>
     {
-        #region Constructors
+        #region Properties
 
-        internal GNReGeralConfig()
-        {
-        }
+        [DFeElement(TipoCampo.Enum, "ambiente", Ordem = 1)]
+        public DFeTipoAmbiente Ambiente { get; set; }
 
-        #endregion Constructors
+        [DFeElement(TipoCampo.Str, "uf", Ordem = 2)]
+        public string Uf { get; set; }
+
+        [DFeElement("receita", Tipo = TipoCampo.Str, Ordem = 3)]
+        public ReceitaValue Receita { get; set; }
+
+        #endregion Properties
     }
 }

@@ -6,7 +6,7 @@
 // Last Modified By : Rafael Dias
 // Last Modified On : 29-10-2021
 // ***********************************************************************
-// <copyright file="GNReGeralConfig.cs" company="OpenAC .Net">
+// <copyright file="ConsultaConfigUFResult.cs" company="OpenAC .Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2014 - 2021 Projeto OpenAC .Net
 //
@@ -29,19 +29,53 @@
 // <summary></summary>
 // ***********************************************************************
 
+using System.Collections.Generic;
+using OpenAC.Net.DFe.Core.Attributes;
 using OpenAC.Net.DFe.Core.Common;
-using OpenAC.Net.GNRe.Commom;
+using OpenAC.Net.DFe.Core.Document;
+using OpenAC.Net.DFe.Core.Serializer;
 
-namespace OpenAC.Net.GNRe
+namespace OpenAC.Net.GNRe.Commom
 {
-    public sealed class GNReGeralConfig : DFeGeralConfigBase<VersaoGNre>
+    [DFeRoot("TConfigUf", Namespace = "http://www.gnre.pe.gov.br")]
+    public sealed class ConsultaConfigUFResult : DFeDocument<ConsultaConfigUFResult>
     {
         #region Constructors
 
-        internal GNReGeralConfig()
+        public ConsultaConfigUFResult()
         {
+            SituacaoConsulta = new Situacao();
+            Receitas = new List<Receita>();
+            VersoesXml = new List<VersaoXml>();
         }
 
         #endregion Constructors
+
+        #region Properties
+
+        [DFeElement(TipoCampo.Enum, "ambiente")]
+        public DFeTipoAmbiente Ambiente { get; set; }
+
+        [DFeElement(TipoCampo.Str, "uf")]
+        public string Uf { get; set; }
+
+        [DFeElement("situacaoConsulta")]
+        public Situacao SituacaoConsulta { get; set; }
+
+        [DFeElement(TipoCampo.Enum, "exigeUfFavorecida", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public SimNaoCampo ExigeUfFavorecida { get; set; }
+
+        [DFeAttribute(TipoCampo.Enum, "exigeReceita", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public SimNaoCampo ExigeReceita { get; set; }
+
+        [DFeCollection("receitas")]
+        [DFeItem(typeof(Receita), "receita")]
+        public List<Receita> Receitas { get; set; }
+
+        [DFeCollection("versoesXml")]
+        [DFeItem(typeof(VersaoXml), "versao")]
+        public List<VersaoXml> VersoesXml { get; set; }
+
+        #endregion Properties
     }
 }

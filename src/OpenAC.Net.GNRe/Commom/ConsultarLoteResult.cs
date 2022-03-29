@@ -6,7 +6,7 @@
 // Last Modified By : Rafael Dias
 // Last Modified On : 29-10-2021
 // ***********************************************************************
-// <copyright file="GNReGeralConfig.cs" company="OpenAC .Net">
+// <copyright file="ConsultarLoteResult.cs" company="OpenAC .Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2014 - 2021 Projeto OpenAC .Net
 //
@@ -29,19 +29,37 @@
 // <summary></summary>
 // ***********************************************************************
 
+using OpenAC.Net.DFe.Core.Attributes;
 using OpenAC.Net.DFe.Core.Common;
-using OpenAC.Net.GNRe.Commom;
+using OpenAC.Net.DFe.Core.Document;
+using OpenAC.Net.DFe.Core.Serializer;
 
-namespace OpenAC.Net.GNRe
+namespace OpenAC.Net.GNRe.Commom
 {
-    public sealed class GNReGeralConfig : DFeGeralConfigBase<VersaoGNre>
+    [DFeRoot("TResultLote_GNRE")]
+    public sealed class ConsultarLoteResult : DFeDocument<ConsultarLoteResult>
     {
         #region Constructors
 
-        internal GNReGeralConfig()
+        public ConsultarLoteResult()
         {
+            SituacaoProcess = new Situacao();
+            Resultado = new Resultado();
         }
 
         #endregion Constructors
+
+        #region Properties
+
+        [DFeElement(TipoCampo.Enum, "ambiente")]
+        public DFeTipoAmbiente Ambiente { get; set; }
+
+        [DFeElement("situacaoProcess")]
+        public Situacao SituacaoProcess { get; set; }
+
+        [DFeElement("resultado")]
+        public Resultado Resultado { get; set; }
+
+        #endregion Properties
     }
 }
