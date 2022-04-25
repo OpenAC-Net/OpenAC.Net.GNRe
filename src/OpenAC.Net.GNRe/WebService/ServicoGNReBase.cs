@@ -29,9 +29,6 @@
 // <summary></summary>
 // ***********************************************************************
 
-using System.IO;
-using System.ServiceModel.Channels;
-using System.Text;
 using System.Xml.Linq;
 using OpenAC.Net.Core.Extensions;
 using OpenAC.Net.DFe.Core;
@@ -41,7 +38,7 @@ using OpenAC.Net.GNRe.Commom;
 
 namespace OpenAC.Net.GNRe.WebService
 {
-    public abstract class ServicoGNReBase : DFeServiceClientResquest12<GNReConfig, GNReGeralConfig, VersaoGNre, GNReWebserviceConfig, GNReCertificadosConfig, GNReArquivosConfig, SchemaGNRe>
+    public abstract class ServicoGNReBase : DFeSoapServiceClient<GNReConfig, GNReGeralConfig, GNReWebserviceConfig, GNReCertificadosConfig, GNReArquivosConfig>
     {
         #region Constructors
 
@@ -50,13 +47,8 @@ namespace OpenAC.Net.GNRe.WebService
         /// </summary>
         /// <param name="config"></param>
         /// <param name="url"></param>
-        protected ServicoGNReBase(GNReConfig config, string url) : base(config, url, config.Certificados.ObterCertificado())
+        protected ServicoGNReBase(GNReConfig config, string url) : base(config, url, SoapVersion.Soap12)
         {
-            if (Endpoint.Binding is not CustomBinding binding) return;
-
-            var http = binding.Elements.Find<HttpTransportBindingElement>();
-            http.MaxBufferSize = int.MaxValue;
-            http.MaxReceivedMessageSize = int.MaxValue;
         }
 
         #endregion Constructors
@@ -71,32 +63,31 @@ namespace OpenAC.Net.GNRe.WebService
         protected static string SoapHeader(VersaoGNre versao) => $"<gnr:gnreCabecMsg><gnr:versaoDados>{versao.GetDFeValue()}</gnr:versaoDados></gnr:gnreCabecMsg>";
 
         /// <summary>
-        ///
+        /// Função para validar a menssagem a ser enviada para o webservice.
         /// </summary>
-        /// <param name="xmlDocument"></param>
-        /// <returns></returns>
-        /// <exception cref="OpenDFeCommunicationException"></exception>
-        protected override string TratarRetorno(XDocument xmlDocument)
-        {
-            var element = xmlDocument.ElementAnyNs("Fault");
-            if (element == null) return xmlDocument.ToXmlDocument().OuterXml;
+        /// <param name="message"></param>
+        /// <param name="schema"></param>
+        protected void ValidateMessage(string message, SchemaGNRe schema) =>
+            ValidateMessage(message, Configuracoes.Arquivos.GetSchema(schema));
 
-            var exMessage = $"{element.ElementAnyNs("Code")?.ElementAnyNs("Value")?.GetValue<string>()} - " +
-                            $"{element.ElementAnyNs("Reason")?.ElementAnyNs("Text")?.GetValue<string>()}";
-            throw new OpenDFeCommunicationException(exMessage);
-        }
+        protected virtual string Execute(string soapAction, string message, string soapHeader, params string[] soapNamespaces) =>
+            Execute(soapAction, message, soapHeader, new string[0], soapNamespaces);
 
         /// <summary>
         ///
         /// </summary>
-        /// <param name="conteudoArquivo"></param>
-        /// <param name="nomeArquivo"></param>
-        protected void GravarXml(string conteudoArquivo, string nomeArquivo)
+        /// <param name="xmlDocument"></param>
+        /// <param name="responseTag"></param>
+        /// <returns></returns>
+        /// <exception cref="OpenDFeCommunicationException"></exception>
+        protected override string TratarRetorno(XElement xmlDocument, string[] responseTag)
         {
-            if (Configuracoes.WebServices.Salvar == false) return;
+            var element = xmlDocument.ElementAnyNs("Fault");
+            if (element == null) return xmlDocument.ToString();
 
-            nomeArquivo = Path.Combine(Configuracoes.Arquivos.PathSalvar, nomeArquivo);
-            File.WriteAllText(nomeArquivo, conteudoArquivo, Encoding.UTF8);
+            var exMessage = $"{element.ElementAnyNs("Code")?.ElementAnyNs("Value")?.GetValue<string>()} - " +
+                            $"{element.ElementAnyNs("Reason")?.ElementAnyNs("Text")?.GetValue<string>()}";
+            throw new OpenDFeCommunicationException(exMessage);
         }
 
         #endregion Methods
