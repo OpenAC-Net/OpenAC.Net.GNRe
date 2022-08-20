@@ -70,6 +70,14 @@ namespace OpenAC.Net.GNRe.WebService
         protected void ValidateMessage(string message, SchemaGNRe schema) =>
             ValidateMessage(message, Configuracoes.Arquivos.GetSchema(schema));
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="soapAction"></param>
+        /// <param name="message"></param>
+        /// <param name="soapHeader"></param>
+        /// <param name="soapNamespaces"></param>
+        /// <returns></returns>
         protected virtual string Execute(string soapAction, string message, string soapHeader, params string[] soapNamespaces) =>
             Execute(soapAction, message, soapHeader, new string[0], soapNamespaces);
 
