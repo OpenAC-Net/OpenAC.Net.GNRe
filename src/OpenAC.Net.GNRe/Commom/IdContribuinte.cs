@@ -44,6 +44,9 @@ namespace OpenAC.Net.GNRe.Commom
         [DFeElement(TipoCampo.Str, "CPF", Ocorrencia = Ocorrencia.NaoObrigatoria)]
         public string Cpf { get; set; }
 
+        [DFeElement(TipoCampo.Str, "IE", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        public string IE { get; set; }
+
         #endregion Properties
     }
 }
