@@ -79,7 +79,7 @@ namespace OpenAC.Net.GNRe.WebService
         /// <param name="soapNamespaces"></param>
         /// <returns></returns>
         protected virtual string Execute(string soapAction, string message, string soapHeader, params string[] soapNamespaces) =>
-            Execute(soapAction, message, soapHeader, new string[0], soapNamespaces);
+            Execute(soapAction, message, soapHeader, soapNamespaces);
 
         /// <summary>
         ///
@@ -88,7 +88,7 @@ namespace OpenAC.Net.GNRe.WebService
         /// <param name="responseTag"></param>
         /// <returns></returns>
         /// <exception cref="OpenDFeCommunicationException"></exception>
-        protected override string TratarRetorno(XElement xmlDocument, string[] responseTag)
+        protected override string TratarRetorno(XElement xmlDocument)
         {
             var element = xmlDocument.ElementAnyNs("Fault");
             if (element == null) return xmlDocument.ToString();
