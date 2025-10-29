@@ -194,6 +194,9 @@ namespace OpenAC.Net.GNRe.Commom
         [DFeElement(TipoCampo.Str, "codigoBarras")]
         public string CodigoBarras { get; set; }
 
+        [DFeElement(TipoCampo.Str, "qrcodePayload")]
+        public string QrCodePayload { get; set; }
+
         [DFeCollection("motivosRejeicao")]
         [DFeItem(typeof(Motivo), "motivo")]
         public List<Motivo> MotivosRejeicao { get; set; }
