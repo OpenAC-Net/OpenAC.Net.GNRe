@@ -58,16 +58,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-        <None Include="..\..\nuget.png">
-            <Pack>True</Pack>
-            <PackagePath />
-            <Link>nuget.png</Link>
-        </None>
+        <None Include="..\..\nuget.png" Pack="true" PackagePath="\"  Link="nuget.png" />
+        <None Include="..\..\README.md" Pack="true" PackagePath="\" />
 		<None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
-        <None Include="Schemas\**\*.*">
-            <Pack>True</Pack>
-            <PackagePath>content\Schemas\</PackagePath>
-        </None>
+        <None Include="Schemas\**\*.*" Pack="true" PackagePath="content\Schemas"/>
 	</ItemGroup>
 
 </Project>
