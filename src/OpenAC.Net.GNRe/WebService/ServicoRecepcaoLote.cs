@@ -30,7 +30,6 @@
 // ***********************************************************************
 
 using System;
-using System.ServiceModel.Channels;
 using OpenAC.Net.DFe.Core.Common;
 using OpenAC.Net.GNRe.Commom;
 
