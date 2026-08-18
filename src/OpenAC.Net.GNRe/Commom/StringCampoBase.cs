@@ -34,7 +34,7 @@ using OpenAC.Net.DFe.Core.Serializer;
 
 namespace OpenAC.Net.GNRe.Commom
 {
-    public class StringCampoBase
+    public partial class StringCampoBase
     {
         #region Properties
 

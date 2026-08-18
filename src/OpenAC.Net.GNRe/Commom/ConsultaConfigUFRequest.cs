@@ -1,4 +1,4 @@
-﻿// ***********************************************************************
+// ***********************************************************************
 // Assembly         : OpenAC.Net.GNRe
 // Author           : Rafael Dias
 // Created          : 29-10-2021
@@ -37,7 +37,7 @@ using OpenAC.Net.DFe.Core.Serializer;
 namespace OpenAC.Net.GNRe.Commom
 {
     [DFeRoot("TConsultaConfigUf", Namespace = "http://www.gnre.pe.gov.br")]
-    public sealed class ConsultaConfigUFRequest : DFeDocument<ConsultaConfigUFRequest>
+    public sealed partial class ConsultaConfigUFRequest : DFeDocument<ConsultaConfigUFRequest>
     {
         #region Properties
 
@@ -47,7 +47,7 @@ namespace OpenAC.Net.GNRe.Commom
         [DFeElement(TipoCampo.Str, "uf", Ordem = 2)]
         public string Uf { get; set; }
 
-        [DFeElement("receita", Tipo = TipoCampo.Str, Ordem = 3)]
+        [DFeElement("receita", Tipo = TipoCampo.Str, Namespace = "http://www.gnre.pe.gov.br", Ordem = 3)]
         public ReceitaValue Receita { get; set; }
 
         #endregion Properties

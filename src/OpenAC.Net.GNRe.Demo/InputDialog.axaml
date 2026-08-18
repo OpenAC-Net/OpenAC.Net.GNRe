@@ -1,0 +1,20 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="OpenAC.Net.GNRe.Demo.InputDialog"
+        Title="Entrada de Dados"
+        Width="420" Height="220"
+        CanResize="False"
+        WindowStartupLocation="CenterOwner">
+    <Grid RowDefinitions="*,Auto" Margin="20">
+        <StackPanel Grid.Row="0" Spacing="12" VerticalAlignment="Center">
+            <TextBlock Name="PromptLabel" TextWrapping="Wrap" FontSize="14" FontWeight="SemiBold"/>
+            <TextBox Name="InputTextBox" IsVisible="False" Watermark="Digite aqui..."/>
+            <CheckBox Name="InputCheckBox" IsVisible="False"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10" Margin="0,15,0,0">
+            <Button Name="BtnOk" Content="OK" Width="80" HorizontalContentAlignment="Center" IsDefault="True"/>
+            <Button Name="BtnCancel" Content="Cancelar" Width="80" HorizontalContentAlignment="Center" IsCancel="True"/>
+        </StackPanel>
+    </Grid>
+</Window>

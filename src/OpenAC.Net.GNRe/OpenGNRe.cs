@@ -1,4 +1,4 @@
-﻿// ***********************************************************************
+// ***********************************************************************
 // Assembly         : OpenAC.Net.GNRe
 // Author           : Rafael Dias
 // Created          : 29-10-2021
@@ -112,7 +112,7 @@ namespace OpenAC.Net.GNRe
                 {
                     Ambiente = Config.WebServices.Ambiente,
                     NumeroRecibo = numeroRecibo,
-                    IncluirPdfsGuias = incluirPdf
+                    IncluirPdfsGuias = incluirPdf ? SimNaoLetra.Sim : SimNaoLetra.Nao
                 };
 
                 using var service = new ServicoResultadoLote(Config);
@@ -132,7 +132,7 @@ namespace OpenAC.Net.GNRe
             {
                 Ambiente = Config.WebServices.Ambiente,
                 NumeroRecibo = numeroRecibo,
-                IncluirPdfsGuias = incluirPdf
+                IncluirPdfsGuias = incluirPdf ? SimNaoLetra.Sim : SimNaoLetra.Nao
             };
 
             using var service = new ServicoResultadoLote(Config);
@@ -157,7 +157,7 @@ namespace OpenAC.Net.GNRe
                     Receita = new ReceitaValue()
                     {
                         Value = receita,
-                        Courier = courier
+                        Courier = courier.HasValue ? (courier.Value ? SimNaoLetra.Sim : SimNaoLetra.Nao) : null
                     }
                 };
 
@@ -182,7 +182,7 @@ namespace OpenAC.Net.GNRe
                 Receita = new ReceitaValue()
                 {
                     Value = receita,
-                    Courier = courier
+                    Courier = courier.HasValue ? (courier.Value ? SimNaoLetra.Sim : SimNaoLetra.Nao) : null
                 }
             };
 

@@ -1,4 +1,4 @@
-﻿// ***********************************************************************
+// ***********************************************************************
 // Assembly         : OpenAC.Net.GNRe
 // Author           : Rafael Dias
 // Created          : 29-10-2021
@@ -38,7 +38,7 @@ using OpenAC.Net.DFe.Core.Serializer;
 namespace OpenAC.Net.GNRe.Commom
 {
     [DFeRoot("TConfigUf", Namespace = "http://www.gnre.pe.gov.br")]
-    public sealed class ConsultaConfigUFResult : DFeDocument<ConsultaConfigUFResult>
+    public sealed partial class ConsultaConfigUFResult : DFeDocument<ConsultaConfigUFResult>
     {
         #region Constructors
 
@@ -59,22 +59,25 @@ namespace OpenAC.Net.GNRe.Commom
         [DFeElement(TipoCampo.Str, "uf")]
         public string Uf { get; set; }
 
-        [DFeElement("situacaoConsulta")]
+        [DFeElement("situacaoConsulta", Namespace = "http://www.gnre.pe.gov.br")]
         public Situacao SituacaoConsulta { get; set; }
 
-        [DFeElement(TipoCampo.Enum, "exigeUfFavorecida", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        [DFeElement(TipoCampo.Enum, "exigeUfFavorecida", Namespace = "http://www.gnre.pe.gov.br", Ocorrencia = Ocorrencia.NaoObrigatoria)]
         public SimNaoCampo ExigeUfFavorecida { get; set; }
 
-        [DFeAttribute(TipoCampo.Enum, "exigeReceita", Ocorrencia = Ocorrencia.NaoObrigatoria)]
+        [DFeElement(TipoCampo.Enum, "exigeReceita", Namespace = "http://www.gnre.pe.gov.br", Ocorrencia = Ocorrencia.NaoObrigatoria)]
         public SimNaoCampo ExigeReceita { get; set; }
 
-        [DFeCollection("receitas")]
-        [DFeItem(typeof(Receita), "receita")]
+        [DFeCollection("receitas", Namespace = "http://www.gnre.pe.gov.br")]
+        [DFeItem(typeof(Receita), "receita", Namespace = "http://www.gnre.pe.gov.br")]
         public List<Receita> Receitas { get; set; }
 
-        [DFeCollection("versoesXml")]
-        [DFeItem(typeof(VersaoXml), "versao")]
+        [DFeCollection("versoesXml", Namespace = "http://www.gnre.pe.gov.br")]
+        [DFeItem(typeof(VersaoXml), "versao", Namespace = "http://www.gnre.pe.gov.br")]
         public List<VersaoXml> VersoesXml { get; set; }
+
+        public bool ShouldSerializeReceitas() => Receitas != null && Receitas.Count > 0;
+        public bool ShouldSerializeVersoesXml() => VersoesXml != null && VersoesXml.Count > 0;
 
         #endregion Properties
     }

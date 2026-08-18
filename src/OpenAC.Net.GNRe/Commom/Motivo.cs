@@ -34,7 +34,7 @@ using OpenAC.Net.DFe.Core.Serializer;
 
 namespace OpenAC.Net.GNRe.Commom
 {
-    public sealed class Motivo
+    public sealed partial class Motivo
     {
         #region Properties
 

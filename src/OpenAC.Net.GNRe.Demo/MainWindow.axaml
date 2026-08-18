@@ -1,0 +1,143 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="OpenAC.Net.GNRe.Demo.MainWindow"
+        Title="OpenAC.Net.GNRe - Demo Avalonia (.NET 10)"
+        Width="1280" Height="780"
+        MinWidth="960" MinHeight="600"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid ColumnDefinitions="420,*" Margin="16" ColumnSpan="1">
+        <!-- Painel Lateral de Configurações e Ações -->
+        <ScrollViewer Grid.Column="0" Margin="0,0,16,0">
+            <StackPanel Spacing="16">
+                <!-- Card Certificado -->
+                <Border Background="{DynamicResource SystemAltHighColor}"
+                        BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                        BorderThickness="1" CornerRadius="8" Padding="16">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="Configurações do Certificado" FontWeight="Bold" FontSize="15"/>
+
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Serial:"/>
+                            <TextBox Name="TextCertificadoSerial" Text="05d75a9b9829a807" Watermark="Número serial do certificado"/>
+                        </StackPanel>
+
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Senha:"/>
+                            <TextBox Name="TextCertificadoSenha" PasswordChar="•" Watermark="Senha do certificado"/>
+                        </StackPanel>
+
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Caminho Certificado:"/>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <TextBox Grid.Column="0" Name="TextCertificadoCaminho" Watermark="Caminho do arquivo .pfx / .p12" Margin="0,0,6,0"/>
+                                <Button Grid.Column="1" Name="BtnBuscarCertificado" Content="..."/>
+                            </Grid>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Card WebService -->
+                <Border Background="{DynamicResource SystemAltHighColor}"
+                        BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                        BorderThickness="1" CornerRadius="8" Padding="16">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="Configurações do WebService" FontWeight="Bold" FontSize="15"/>
+
+                        <Grid ColumnDefinitions="*,120">
+                            <StackPanel Grid.Column="0" Spacing="4" Margin="0,0,8,0">
+                                <TextBlock Text="Ambiente:"/>
+                                <ComboBox Name="ComboAmbiente" HorizontalAlignment="Stretch"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Spacing="4">
+                                <TextBlock Text="Timeout (ms):"/>
+                                <NumericUpDown Name="TextTimeout" Value="30000" Minimum="1000" Maximum="99999999" Increment="1000" FormatString="0"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Diretório Schemas:"/>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <TextBox Grid.Column="0" Name="TextDiretorioSchemas" Margin="0,0,6,0"/>
+                                <Button Grid.Column="1" Name="BtnBuscarSchemas" Content="..."/>
+                            </Grid>
+                        </StackPanel>
+
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Diretório XMLs:"/>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <TextBox Grid.Column="0" Name="TextDiretorioXmls" Margin="0,0,6,0"/>
+                                <Button Grid.Column="1" Name="BtnBuscarXmls" Content="..."/>
+                            </Grid>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Spacing="16" Margin="0,4,0,0">
+                            <CheckBox Name="CheckSalvarXmls" Content="Salvar XMLs" IsChecked="True"/>
+                            <CheckBox Name="CheckSalvarXmlsSoap" Content="Salvar SOAP" IsChecked="True"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Card Ações -->
+                <Border Background="{DynamicResource SystemAltHighColor}"
+                        BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                        BorderThickness="1" CornerRadius="8" Padding="16">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="Ações WebService" FontWeight="Bold" FontSize="15"/>
+
+                        <Button Name="BtnRecepcaoLote" Content="Recepção Lote"
+                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                                Height="36" FontWeight="SemiBold"/>
+
+                        <Button Name="BtnResultadoLote" Content="Resultado Lote"
+                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                                Height="36" FontWeight="SemiBold"/>
+
+                        <Button Name="BtnConfiguracaoUf" Content="Configuração UF"
+                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                                Height="36" FontWeight="SemiBold"/>
+
+                        <Button Name="BtnLimparXmls" Content="Limpar XMLs"
+                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                                Height="32"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Painel Direito: Visualização de XMLs -->
+        <Grid Grid.Column="1" ColumnDefinitions="*,12,*">
+            <!-- XML Envio -->
+            <Grid Grid.Column="0" RowDefinitions="Auto,*">
+                <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,8">
+                    <TextBlock Grid.Column="0" Text="XML Envio" FontWeight="Bold" FontSize="14" VerticalAlignment="Center"/>
+                    <Button Grid.Column="1" Name="BtnCopiarEnvio" Content="Copiar" Padding="8,4"/>
+                </Grid>
+                <TextBox Grid.Row="1" Name="TextXmlEnvio"
+                         IsReadOnly="True"
+                         AcceptsReturn="True"
+                         TextWrapping="Wrap"
+                         FontFamily="Consolas,Cascadia Code,Monospace"
+                         FontSize="12"/>
+            </Grid>
+
+            <!-- Divisor -->
+            <GridSplitter Grid.Column="1" Width="4" Background="Transparent" ResizeDirection="Columns"/>
+
+            <!-- XML Resposta -->
+            <Grid Grid.Column="2" RowDefinitions="Auto,*">
+                <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,8">
+                    <TextBlock Grid.Column="0" Text="XML Resposta" FontWeight="Bold" FontSize="14" VerticalAlignment="Center"/>
+                    <Button Grid.Column="1" Name="BtnCopiarResposta" Content="Copiar" Padding="8,4"/>
+                </Grid>
+                <TextBox Grid.Row="1" Name="TextXmlResposta"
+                         IsReadOnly="True"
+                         AcceptsReturn="True"
+                         TextWrapping="Wrap"
+                         FontFamily="Consolas,Cascadia Code,Monospace"
+                         FontSize="12"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

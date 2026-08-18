@@ -1,4 +1,4 @@
-﻿// ***********************************************************************
+// ***********************************************************************
 // Assembly         : OpenAC.Net.GNRe
 // Author           : Rafael Dias
 // Created          : 29-10-2021
@@ -40,7 +40,8 @@ namespace OpenAC.Net.GNRe.Commom
     /// <summary>
     /// Dados do Gnre para a versão 1.00 e 2.00.
     /// </summary>
-    public sealed class GuiaGNRe : DFeDocument<GuiaGNRe>
+    [DFeRoot("TDadosGNRE", Namespace = "http://www.gnre.pe.gov.br")]
+    public sealed partial class GuiaGNRe : DFeDocument<GuiaGNRe>
     {
         #region Constructors
 
@@ -53,8 +54,10 @@ namespace OpenAC.Net.GNRe.Commom
 
         #region Properties
 
-        [DFeAttribute(TipoCampo.Enum, "versao", Ocorrencia = Ocorrencia.Obrigatoria)]
+        [DFeAttribute(TipoCampo.Enum, "versao", Ocorrencia = Ocorrencia.NaoObrigatoria)]
         public VersaoGNre Versao { get; set; }
+
+        public bool ShouldSerializeVersao() => Versao == VersaoGNre.v200;
 
         #region Versao1
 
@@ -217,13 +220,13 @@ namespace OpenAC.Net.GNRe.Commom
 
         public bool ShouldSerializeTipoGnre() => Versao == VersaoGNre.v200 && TipoGnre != null;
 
-        [DFeElement("contribuinteEmitente", Ocorrencia = Ocorrencia.NaoObrigatoria, Ordem = 3)]
+        [DFeElement("contribuinteEmitente", Namespace = "http://www.gnre.pe.gov.br", Ocorrencia = Ocorrencia.NaoObrigatoria, Ordem = 3)]
         public ContribuinteEmitente ContribuinteEmitente { get; set; }
 
         public bool ShouldSerializeIdContribuinteEmitente() => Versao == VersaoGNre.v200;
 
-        [DFeItem(typeof(ItemGnre), "item")]
-        [DFeCollection("itensGNRE", Ocorrencia = Ocorrencia.NaoObrigatoria, Ordem = 4)]
+        [DFeCollection("itensGNRE", Namespace = "http://www.gnre.pe.gov.br", Ocorrencia = Ocorrencia.NaoObrigatoria, Ordem = 4)]
+        [DFeItem(typeof(ItemGnre), "item", Namespace = "http://www.gnre.pe.gov.br")]
         public List<ItemGnre> Item { get; set; }
 
         public bool ShouldSerializeItensGnre() => Versao == VersaoGNre.v200;

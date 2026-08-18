@@ -1,4 +1,4 @@
-﻿// ***********************************************************************
+// ***********************************************************************
 // Assembly         : OpenAC.Net.GNRe
 // Author           : Rafael Dias
 // Created          : 29-10-2021
@@ -37,27 +37,19 @@ using OpenAC.Net.DFe.Core.Serializer;
 namespace OpenAC.Net.GNRe.Commom
 {
     [DFeRoot("TConsLote_GNRE", Namespace = "http://www.gnre.pe.gov.br")]
-    public sealed class ConsultaLoteRequest : DFeDocument<ConsultaLoteRequest>
+    public sealed partial class ConsultaLoteRequest : DFeDocument<ConsultaLoteRequest>
     {
         #region Properties
 
-        [DFeElement(TipoCampo.Enum, "ambiente")]
+        [DFeElement(TipoCampo.Enum, "ambiente", Ordem = 1)]
         public DFeTipoAmbiente Ambiente { get; set; }
 
-        [DFeElement(TipoCampo.Str, "numeroRecibo")]
+        [DFeElement(TipoCampo.Str, "numeroRecibo", Ordem = 2)]
         public string NumeroRecibo { get; set; }
 
-        [DFeElement(TipoCampo.Custom, "incluirPDFGuias")]
-        public bool IncluirPdfsGuias { get; set; }
+        [DFeElement(TipoCampo.Enum, "incluirPDFGuias", Ocorrencia = Ocorrencia.NaoObrigatoria, Ordem = 3)]
+        public SimNaoLetra? IncluirPdfsGuias { get; set; }
 
         #endregion Properties
-
-        #region Methods
-
-        private string SerializeIncluirPdfsGuias() => IncluirPdfsGuias ? "S" : "N";
-
-        private object DeserializeIncluirPdfsGuias(string value) => value == "S";
-
-        #endregion Methods
     }
 }
