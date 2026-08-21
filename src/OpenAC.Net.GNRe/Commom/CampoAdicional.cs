@@ -35,7 +35,7 @@ using OpenAC.Net.DFe.Core.Serializer;
 
 namespace OpenAC.Net.GNRe.Commom
 {
-    public sealed class CampoAdicional
+    public sealed partial class CampoAdicional
     {
         #region Constructors
 

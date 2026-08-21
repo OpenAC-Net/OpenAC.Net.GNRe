@@ -37,7 +37,7 @@ using OpenAC.Net.DFe.Core.Serializer;
 namespace OpenAC.Net.GNRe.Commom
 {
     [DFeRoot("TRetLote_GNRE")]
-    public sealed class RecepcaoLoteResult : DFeDocument<RecepcaoLoteResult>
+    public sealed partial class RecepcaoLoteResult : DFeDocument<RecepcaoLoteResult>
     {
         #region Constructors
 

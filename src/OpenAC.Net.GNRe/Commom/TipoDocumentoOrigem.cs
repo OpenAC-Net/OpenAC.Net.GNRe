@@ -34,7 +34,7 @@ using OpenAC.Net.DFe.Core.Serializer;
 
 namespace OpenAC.Net.GNRe.Commom
 {
-    public sealed class TipoDocumentoOrigem
+    public sealed partial class TipoDocumentoOrigem
     {
         #region Properties
 

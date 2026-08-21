@@ -23,25 +23,34 @@ jobs:
       with:
         fetch-depth: 0 # Get all history to allow automatic versioning using MinVer
         
-    - name: Setup NuGet
-      uses: nuget/setup-nuget@v2
-
-    - name: Restore NuGet packages
-      run: nuget restore OpenAC.Net.GNRe.sln
-      working-directory: src
-
     # Install the .NET SDK indicated in the global.json file
     - name: Setup .NET
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5.0.0
       with:
         dotnet-version: |
           8.x
           9.x
-    - run: dotnet msbuild OpenAC.Net.GNRe.sln -property:Configuration=Release -property:platform="Any CPU"
-      working-directory: src
-    - run: dotnet pack --configuration Release --output ${{ env.NuGetDirectory }}
+          10.x
+
+    - name: Setup NuGet
+      uses: nuget/setup-nuget@v2.0.1
+      
+    - name: Restore NuGet packages
+      run: nuget restore OpenAC.Net.GNRe.sln
       working-directory: src
 
+    - name: Build solution
+      run: dotnet msbuild OpenAC.Net.GNRe.sln -property:Configuration=Release -property:platform="Any CPU"
+      working-directory: src
+
+    - name: Run tests
+      run: dotnet run --project OpenAC.Net.GNRe.Tests/OpenAC.Net.GNRe.Tests.csproj -c Release
+      working-directory: src
+
+    - name: Pack NuGet package
+      run: dotnet pack --configuration Release --output ${{ env.NuGetDirectory }}
+      working-directory: src
+      
     # Publish the NuGet package as an artifact, so they can be used in the following jobs
     - uses: actions/upload-artifact@v4
       with:
@@ -56,7 +65,7 @@ jobs:
     steps:
       # Install the .NET SDK indicated in the global.json file
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5.0.0
 
       # Download the NuGet package created in the previous job
       - uses: actions/download-artifact@v4
@@ -74,7 +83,7 @@ jobs:
       - name: Validate package
         run: meziantou.validate-nuget-package (Get-ChildItem "${{ env.NuGetDirectory }}/*.nupkg")
 
-  deploy:
+  publish_nuget:
     # Publish only when creating a GitHub Release
     # https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository
     # You can update this logic if you want to manage releases differently
@@ -90,7 +99,7 @@ jobs:
 
       # Install the .NET SDK indicated in the global.json file
       - name: Setup .NET Core
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5.0.0
 
       # Publish all NuGet packages to NuGet.org
       # Use --skip-duplicate to prevent errors if a package with the same version already exists.
@@ -100,3 +109,14 @@ jobs:
           foreach($file in (Get-ChildItem "${{ env.NuGetDirectory }}" -Recurse -Include *.nupkg)) {
               dotnet nuget push $file --api-key "${{ secrets.NUGET_APIKEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
           }
+          
+  webhook:
+    runs-on: ubuntu-latest
+    needs: [ publish_nuget ]
+    env:
+      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+    steps:
+      - name: Discord notification
+        uses: Ilshidur/action-discord@0.4.0
+        with:
+          args: 'Uma nova versão do **OpenAC.Net.GNRe** foi publicada! Confira agora em [NuGet.org](https://www.nuget.org/packages/OpenAC.Net.GNRe).'

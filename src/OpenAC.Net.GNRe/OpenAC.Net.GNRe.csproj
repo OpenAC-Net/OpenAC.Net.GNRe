@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-      <TargetFrameworks>net462;net470;net48;netstandard2.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+      <TargetFrameworks>net462;net470;net48;netstandard2.0;net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
 	  <LangVersion>latest</LangVersion>
 	  <AssemblyName>OpenAC.Net.GNRe</AssemblyName>
 	  <RootNamespace>OpenAC.Net.GNRe</RootNamespace>
@@ -13,6 +13,7 @@
       <PackageProjectUrl>https://openac.net.br/</PackageProjectUrl>
       <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
       <GenerateDocumentationFile>true</GenerateDocumentationFile>
+      <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
       <PackageIcon>nuget.png</PackageIcon>
 	  <PackageIconUrl>https://avatars.githubusercontent.com/u/90476515?s=200&amp;v=4</PackageIconUrl>
 	  <RepositoryUrl>https://github.com/OpenAC-Net/OpenAC.Net.GNRe</RepositoryUrl>
@@ -21,9 +22,9 @@
       <PackageLicenseFile>LICENSE</PackageLicenseFile>
       <PackageReadmeFile>README.md</PackageReadmeFile>
       <NeutralLanguage>pt-BR</NeutralLanguage>	  
-	  <AssemblyVersion>1.6.0.0</AssemblyVersion>
-	  <FileVersion>1.6.0.0</FileVersion>
-	  <Version>1.6.0.0</Version>
+	  <AssemblyVersion>1.7.0.0</AssemblyVersion>
+	  <FileVersion>1.7.0.0</FileVersion>
+	  <Version>1.7.0.0</Version>
 	  <PublishRepositoryUrl>true</PublishRepositoryUrl>
 	  <EmbedUntrackedSources>true</EmbedUntrackedSources>
 	  <DebugType>embedded</DebugType>
@@ -41,14 +42,14 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
       <PackageReference Include="OpenAC.Net.Core" Version="1.6.0" />
-      <PackageReference Include="OpenAC.Net.DFe.Core" Version="1.6.0.2" />
+      <PackageReference Include="OpenAC.Net.DFe.Core" Version="1.7.0.1" />
   </ItemGroup>    
 
-	<ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net7.0' or '$(TargetFramework)' == 'net8.0' or '$(TargetFramework)' == 'net9.0' ">
-        <PackageReference Include="System.Drawing.Common" Version="8.0.8" />
-        <PackageReference Include="System.Security.Cryptography.Xml" Version="8.0.2" />
-        <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.2" />
-        <PackageReference Include="System.ServiceModel.Http" Version="8.1.2" />
+	<ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net7.0' or '$(TargetFramework)' == 'net8.0' or '$(TargetFramework)' == 'net9.0' or '$(TargetFramework)' == 'net10.0' ">
+        <PackageReference Include="System.Drawing.Common" Version="10.0.11" />
+        <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.11" />
+        <PackageReference Include="System.ServiceModel.Primitives" Version="10.0.652802" />
+        <PackageReference Include="System.ServiceModel.Http" Version="10.0.652802" />
 	</ItemGroup>
 
     <ItemGroup Condition=" '$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'net470' or '$(TargetFramework)' == 'net48' ">

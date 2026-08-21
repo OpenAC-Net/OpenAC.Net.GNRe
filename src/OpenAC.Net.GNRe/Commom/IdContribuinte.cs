@@ -1,4 +1,4 @@
-﻿// ***********************************************************************
+// ***********************************************************************
 // Assembly         : OpenAC.Net.GNRe
 // Author           : Rafael Dias
 // Created          : 29-10-2021
@@ -34,7 +34,8 @@ using OpenAC.Net.DFe.Core.Serializer;
 
 namespace OpenAC.Net.GNRe.Commom
 {
-    public sealed class IdContribuinte
+    [DFeRoot("identificacao", Namespace = "http://www.gnre.pe.gov.br")]
+    public sealed partial class IdContribuinte
     {
         #region Properties
 

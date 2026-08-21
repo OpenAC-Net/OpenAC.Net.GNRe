@@ -1,4 +1,4 @@
-﻿// ***********************************************************************
+// ***********************************************************************
 // Assembly         : OpenAC.Net.GNRe
 // Author           : Rafael Dias
 // Created          : 29-10-2021
@@ -37,7 +37,7 @@ using OpenAC.Net.DFe.Core.Serializer;
 namespace OpenAC.Net.GNRe.Commom
 {
     [DFeRoot("TLote_GNRE", Namespace = "http://www.gnre.pe.gov.br")]
-    public sealed class LoteGnreRequest : DFeDocument<LoteGnreRequest>
+    public sealed partial class LoteGnreRequest : DFeDocument<LoteGnreRequest>
     {
         #region Constructors
 
@@ -54,8 +54,8 @@ namespace OpenAC.Net.GNRe.Commom
         [DFeAttribute(TipoCampo.Enum, "versao")]
         public VersaoGNre Versao { get; set; }
 
-        [DFeCollection("guias")]
-        [DFeItem(typeof(GuiaGNRe), "TDadosGNRE")]
+        [DFeCollection("guias", Namespace = "http://www.gnre.pe.gov.br")]
+        [DFeItem(typeof(GuiaGNRe), "TDadosGNRE", Namespace = "http://www.gnre.pe.gov.br")]
         public List<GuiaGNRe> Guias { get; set; }
 
         #endregion properties
