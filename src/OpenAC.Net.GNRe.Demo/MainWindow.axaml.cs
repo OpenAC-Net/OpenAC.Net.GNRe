@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Avalonia.Controls;
+using Avalonia.Input.Platform;
 using Avalonia.Platform.Storage;
 using OpenAC.Net.Core.Extensions;
 using OpenAC.Net.DFe.Core.Common;

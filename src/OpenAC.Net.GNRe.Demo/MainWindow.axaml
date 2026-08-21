@@ -19,18 +19,18 @@
 
                         <StackPanel Spacing="4">
                             <TextBlock Text="Serial:"/>
-                            <TextBox Name="TextCertificadoSerial" Text="05d75a9b9829a807" Watermark="Número serial do certificado"/>
+                            <TextBox Name="TextCertificadoSerial" Text="05d75a9b9829a807" PlaceholderText="Número serial do certificado"/>
                         </StackPanel>
 
                         <StackPanel Spacing="4">
                             <TextBlock Text="Senha:"/>
-                            <TextBox Name="TextCertificadoSenha" PasswordChar="•" Watermark="Senha do certificado"/>
+                            <TextBox Name="TextCertificadoSenha" PasswordChar="•" PlaceholderText="Senha do certificado"/>
                         </StackPanel>
 
                         <StackPanel Spacing="4">
                             <TextBlock Text="Caminho Certificado:"/>
                             <Grid ColumnDefinitions="*,Auto">
-                                <TextBox Grid.Column="0" Name="TextCertificadoCaminho" Watermark="Caminho do arquivo .pfx / .p12" Margin="0,0,6,0"/>
+                                <TextBox Grid.Column="0" Name="TextCertificadoCaminho" PlaceholderText="Caminho do arquivo .pfx / .p12" Margin="0,0,6,0"/>
                                 <Button Grid.Column="1" Name="BtnBuscarCertificado" Content="..."/>
                             </Grid>
                         </StackPanel>

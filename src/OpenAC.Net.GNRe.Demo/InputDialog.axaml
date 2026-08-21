@@ -8,7 +8,7 @@
     <Grid RowDefinitions="*,Auto" Margin="20">
         <StackPanel Grid.Row="0" Spacing="12" VerticalAlignment="Center">
             <TextBlock Name="PromptLabel" TextWrapping="Wrap" FontSize="14" FontWeight="SemiBold"/>
-            <TextBox Name="InputTextBox" IsVisible="False" Watermark="Digite aqui..."/>
+            <TextBox Name="InputTextBox" IsVisible="False" PlaceholderText="Digite aqui..."/>
             <CheckBox Name="InputCheckBox" IsVisible="False"/>
         </StackPanel>
 
