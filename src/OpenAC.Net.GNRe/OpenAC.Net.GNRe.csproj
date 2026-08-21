@@ -22,9 +22,9 @@
       <PackageLicenseFile>LICENSE</PackageLicenseFile>
       <PackageReadmeFile>README.md</PackageReadmeFile>
       <NeutralLanguage>pt-BR</NeutralLanguage>	  
-	  <AssemblyVersion>1.7.0.0</AssemblyVersion>
-	  <FileVersion>1.7.0.0</FileVersion>
-	  <Version>1.7.0.0</Version>
+	  <AssemblyVersion>1.8.0.0</AssemblyVersion>
+	  <FileVersion>1.8.0.0</FileVersion>
+	  <Version>1.8.0.0</Version>
 	  <PublishRepositoryUrl>true</PublishRepositoryUrl>
 	  <EmbedUntrackedSources>true</EmbedUntrackedSources>
 	  <DebugType>embedded</DebugType>
@@ -37,7 +37,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-      <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
+      <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.400">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
